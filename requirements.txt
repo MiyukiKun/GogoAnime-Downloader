@@ -1,0 +1,6 @@
+telethon
+FastTelethonhelper
+pymongo
+dnspython
+requests
+beautifulsoup4
