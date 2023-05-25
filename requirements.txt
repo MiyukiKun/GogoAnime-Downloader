@@ -5,3 +5,7 @@ dnspython
 requests
 beautifulsoup4
 lxml
+
+
+gogoanime.cl	FALSE	/	FALSE	0	gogoanime	9rl7ibp37id72gbmcp674ljul7
+gogoanime.cl	FALSE	/	FALSE	1700284682	auth	Jd6NrIPSbScGBRlg1Y3QzC2vKOj7GY4PFB1rS%2BevzHcNImFilmMt2mLOzQmK8q5o7IVVV2MT0k4pX860fAfLCA%3D%3D

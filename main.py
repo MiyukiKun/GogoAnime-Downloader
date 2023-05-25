@@ -26,6 +26,7 @@ async def start_fn(event):
     await bot.send_message(event.chat_id, "Hello!!!")
     
 async def checker_loop():
+    print("hi")
     data = cdb.find({"_id":"GogoAnime"})
     api = Gogo(
         gogoanime_token=data["gogoanime"],
@@ -33,6 +34,7 @@ async def checker_loop():
         host=data["url"]
     )
     while True:
+        print("hello")
         try:
             gogo_anime_list = api.get_bookmarks()
             db_anime_list = adb.full()
@@ -53,7 +55,6 @@ async def checker_loop():
                 if db_anime["Episode"] < i["Episode"]:
                     for j in range(db_anime["Episode"]+1, i["Episode"]+1):
                         d = db_anime["Link"]
-                        print(d, j)
                         links = api.get_download_link(d, j)
                         thumb = downloader.DownLoadFile(links["thumb"], "thumb.png")
                         try:

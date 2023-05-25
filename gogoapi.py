@@ -40,8 +40,9 @@ class Gogo:
         soup = BeautifulSoup(plaintext, "lxml")
         download_div = soup.find("div", {'class': 'cf-download'}).findAll('a')
         result = {}
+        info_div = soup.find("div", {'class': 'anime-info'}).find('a')['href']
         
-        url = f'https://{self.host}/category/{animeid}'
+        url = f'https://{self.host}{info_div}'
         response = requests.get(url=url, cookies=cookies)
         plaintext = response.text
         soup = BeautifulSoup(plaintext, "lxml")
@@ -52,3 +53,11 @@ class Gogo:
             quality_name = links.text.strip().split('x')[1]
             result[quality_name] = download_link
         return result
+    
+if __name__ == "__main__":
+    api = Gogo(
+        gogoanime_token="9rl7ibp37id72gbmcp674ljul7",
+        auth_token="Jd6NrIPSbScGBRlg1Y3QzC2vKOj7GY4PFB1rS%2BevzHcNImFilmMt2mLOzQmK8q5o7IVVV2MT0k4pX860fAfLCA%3D%3D",
+        host="gogoanime.cl"
+    )
+    print(api.get_download_link("/dr-stone-new-world", 1))
