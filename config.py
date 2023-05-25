@@ -5,13 +5,13 @@ from telethon import TelegramClient
 
 dotenv.load_dotenv(".env")
 
-api_id = os.environ.get('API_ID')
+api_id = int(os.environ.get('API_ID'))
 api_hash = os.environ.get('API_HASH')
 bot_token = os.environ.get('BOT_TOKEN')
 db_url = os.environ.get('MONGO_DB_URL')
-FILES_CHANNEL = os.environ.get('FILES_CHANNEL')
-LOGS_CHANNEL = os.environ.get('LOGS_CHANNEL')
-LINKS_CHANNEL = os.environ.get('LINKS_CHANNEL')
+FILES_CHANNEL = int(os.environ.get('FILES_CHANNEL'))
+LOGS_CHANNEL = int(os.environ.get('LOGS_CHANNEL'))
+LINKS_CHANNEL = int(os.environ.get('LINKS_CHANNEL'))
 FILES_HIDER_BOT_USERNAME = os.environ.get('FILES_HIDER_BOT_USERNAME')
 
 
