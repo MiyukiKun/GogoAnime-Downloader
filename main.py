@@ -104,7 +104,7 @@ async def checker_loop():
                             res1080 = await fast_upload(bot, file1080)
                             link = await bot.send_message(
                                 FILES_CHANNEL, 
-                                f"{i['Anime']} - {i['Episode']} 1080p", 
+                                f"{i['Anime']} - {j} 1080p", 
                                 file=res1080,
                                 force_document=True,
                                 thumb=thumb,
