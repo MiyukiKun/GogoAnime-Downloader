@@ -26,7 +26,6 @@ async def start_fn(event):
     await bot.send_message(event.chat_id, "Hello!!!")
     
 async def checker_loop():
-    print("hi")
     data = cdb.find({"_id":"GogoAnime"})
     api = Gogo(
         gogoanime_token=data["gogoanime"],
@@ -34,7 +33,6 @@ async def checker_loop():
         host=data["url"]
     )
     while True:
-        print("hello")
         try:
             gogo_anime_list = api.get_bookmarks()
             db_anime_list = adb.full()
@@ -57,65 +55,85 @@ async def checker_loop():
                         d = db_anime["Link"]
                         links = api.get_download_link(d, j)
                         thumb = downloader.DownLoadFile(links["thumb"], "thumb.png")
-                        try:
-                            await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 360p")
-                            file360 = downloader.DownLoadFile(links["360"], f"{i['Anime']} - {j} 360p.mkv")
-                            await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 360p")
-                            res360 = await fast_upload(bot, file360)
-                            link = await bot.send_message(
-                                FILES_CHANNEL,
-                                f"{i['Anime']} - {j} 360p", 
-                                file=res360, 
-                                force_document=True,
-                                thumb=thumb,
-                                link_preview = False,
-                            )
-                            await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
-                            os.remove(file360)
+                        done = False
+                        for count in range(5):
+                            if done:
+                                break
+                            try:
+                                await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 360p")
+                                file360 = downloader.DownLoadFile(links["360"], f"{i['Anime']} - {j} 360p.mkv")
+                                await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 360p")
+                                res360 = await fast_upload(bot, file360)
+                                link = await bot.send_message(
+                                    FILES_CHANNEL,
+                                    f"{i['Anime']} - {j} 360p", 
+                                    file=res360, 
+                                    force_document=True,
+                                    thumb=thumb,
+                                    link_preview = False,
+                                )
+                                await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
+                                os.remove(file360)
+                                done = True
 
-                        except:
-                            err_str = traceback.format_exc()
-                            await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 360p`\n, Refer to the following Error Message\n\n\n{err_str}")    
+                            except:
+                                err_str = traceback.format_exc()
+                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 360p`\n, Refer to the following Error Message\n\n\n{err_str}")    
+                                if count == 4:
+                                    await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
 
-                        try:
-                            await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 720p")
-                            file720 = downloader.DownLoadFile(links["720"], f"{i['Anime']} - {j} 720p.mkv")
-                            await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 720p")
-                            res720 = await fast_upload(bot, file720)
-                            link = await bot.send_message(
-                                FILES_CHANNEL, 
-                                f"{i['Anime']} - {j} 720p", 
-                                file=res720, 
-                                force_document=True,
-                                thumb=thumb,
-                                link_preview = False,
-                            )
-                            await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
-                            os.remove(file720)
+                        done = False
+                        for count in range(5):
+                            if done:
+                                break
+                            try:
+                                await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 720p")
+                                file720 = downloader.DownLoadFile(links["720"], f"{i['Anime']} - {j} 720p.mkv")
+                                await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 720p")
+                                res720 = await fast_upload(bot, file720)
+                                link = await bot.send_message(
+                                    FILES_CHANNEL, 
+                                    f"{i['Anime']} - {j} 720p", 
+                                    file=res720, 
+                                    force_document=True,
+                                    thumb=thumb,
+                                    link_preview = False,
+                                )
+                                await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
+                                os.remove(file720)
+                                done = True
+                            except:
+                                err_str = traceback.format_exc()
+                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 720`\n, Refer to the following Error Message\n\n\n{err_str}")
+                                if count == 4:
+                                    await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
 
-                        except:
-                            err_str = traceback.format_exc()
-                            await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 720`\n, Refer to the following Error Message\n\n\n{err_str}")
-                        
-                        try:
-                            await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 1080p")
-                            file1080 = downloader.DownLoadFile(links["1080"], f"{i['Anime']} - {j} 1080p.mkv")
-                            await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 1080p")
-                            res1080 = await fast_upload(bot, file1080)
-                            link = await bot.send_message(
-                                FILES_CHANNEL, 
-                                f"{i['Anime']} - {j} 1080p", 
-                                file=res1080,
-                                force_document=True,
-                                thumb=thumb,
-                                link_preview = False,
-                            )
-                            await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
-                            os.remove(file1080)
+                        done = False
+                        for count in range(5):
+                            if done:
+                                break                            
+                            try:
+                                await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 1080p")
+                                file1080 = downloader.DownLoadFile(links["1080"], f"{i['Anime']} - {j} 1080p.mkv")
+                                await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 1080p")
+                                res1080 = await fast_upload(bot, file1080)
+                                link = await bot.send_message(
+                                    FILES_CHANNEL, 
+                                    f"{i['Anime']} - {j} 1080p", 
+                                    file=res1080,
+                                    force_document=True,
+                                    thumb=thumb,
+                                    link_preview = False,
+                                )
+                                await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
+                                os.remove(file1080)
+                                done = True
+                            except:
+                                err_str = traceback.format_exc()
+                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 1080p`\n, Refer to the following Error Message\n\n\n{err_str}")
+                                if count == 4:
+                                    await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
 
-                        except:
-                            err_str = traceback.format_exc()
-                            await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 1080p`\n, Refer to the following Error Message\n\n\n{err_str}")
 
                         adb.modify(
                             {
@@ -130,8 +148,6 @@ async def checker_loop():
 
                     await bot.send_message(LOGS_CHANNEL, f"Uploaded: {i['Anime']} All New Episodes in all Resolutions")
 
-
-        
         except:
             err_str = traceback.format_exc()
             await bot.send_message(LOGS_CHANNEL, f"Error!!! Most Likeley Token Expired, Please Refresh Them, if that does not work, Refer to the following Error Message\n\n\n{err_str}")    
