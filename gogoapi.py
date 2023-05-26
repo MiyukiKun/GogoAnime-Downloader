@@ -18,7 +18,7 @@ class Gogo:
         result = []
         for i in anime:
             anime_name = i.find("a").text.strip()
-            ep_num = float(i.find("p").text.strip().split()[-1])
+            ep_num = int(i.find("p").text.strip().split()[-1].split(".")[0])
             link = i.find("p").find("a")["href"]
             result.append(
                 {
@@ -30,10 +30,6 @@ class Gogo:
         return result
 
     def get_download_link(self, animeid, episode_num):
-        if episode_num.is_integer():
-            episode_num = str(int(episode_num))
-        else:
-            episode_num = str(episode_num).replace(".", "-")
         url = f'https://{self.host}/{animeid}-episode-{episode_num}'
         cookies = {
             'gogoanime': self.gogoanime_token,
