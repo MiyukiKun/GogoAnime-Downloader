@@ -66,7 +66,7 @@ async def checker_loop():
                                 res360 = await fast_upload(bot, file360)
                                 link = await bot.send_message(
                                     FILES_CHANNEL,
-                                    f"{i['Anime']} - {j} 360p", 
+                                    f"{i['Anime']} - {j} 360p",
                                     file=res360, 
                                     force_document=True,
                                     thumb=thumb,
@@ -79,6 +79,8 @@ async def checker_loop():
                             except:
                                 err_str = traceback.format_exc()
                                 await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 360p`\n, Refer to the following Error Message\n\n\n{err_str}")    
+                                asyncio.sleep(180)
+                                links = api.get_download_link(d, j)
                                 if count == 4:
                                     await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
 
@@ -105,6 +107,8 @@ async def checker_loop():
                             except:
                                 err_str = traceback.format_exc()
                                 await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 720`\n, Refer to the following Error Message\n\n\n{err_str}")
+                                asyncio.sleep(180)
+                                links = api.get_download_link(d, j)
                                 if count == 4:
                                     await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
 
@@ -131,6 +135,8 @@ async def checker_loop():
                             except:
                                 err_str = traceback.format_exc()
                                 await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 1080p`\n, Refer to the following Error Message\n\n\n{err_str}")
+                                asyncio.sleep(180)
+                                links = api.get_download_link(d, j)
                                 if count == 4:
                                     await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
 
@@ -152,8 +158,9 @@ async def checker_loop():
             err_str = traceback.format_exc()
             await bot.send_message(LOGS_CHANNEL, f"Error!!! Most Likeley Token Expired, Please Refresh Them, if that does not work, Refer to the following Error Message\n\n\n{err_str}")    
             await bot.send_message(LOGS_CHANNEL, "Bot will Retry in 20 minutes, fix the error meanwhile....")
-            await asyncio.sleep(600)
-        await asyncio.sleep(600)
+
+        await bot.send_message(LOGS_CHANNEL, f"Sleeping for 20 minutes then checking for updates again.")
+        await asyncio.sleep(1200)
 
 @bot.on(events.NewMessage(func=lambda e: e.is_private))
 async def update_config(event):
