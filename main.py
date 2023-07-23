@@ -78,7 +78,7 @@ async def checker_loop():
                             except:
                                 err_str = traceback.format_exc()
                                 await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 1080p`\n, Refer to the following Error Message\n\n\n{err_str}")
-                                await asyncio.sleep(180)
+                                await asyncio.sleep(1200)
                                 links = api.get_download_link(d, j)
                                 if count == 4:
                                     await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
@@ -106,7 +106,7 @@ async def checker_loop():
                             except:
                                 err_str = traceback.format_exc()
                                 await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 720`\n, Refer to the following Error Message\n\n\n{err_str}")
-                                await asyncio.sleep(180)
+                                await asyncio.sleep(1200)
                                 links = api.get_download_link(d, j)
                                 if count == 4:
                                     await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
@@ -134,7 +134,7 @@ async def checker_loop():
                             except:
                                 err_str = traceback.format_exc()
                                 await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 360p`\n, Refer to the following Error Message\n\n\n{err_str}")    
-                                await asyncio.sleep(180)
+                                await asyncio.sleep(1200)
                                 links = api.get_download_link(d, j)
                                 if count == 4:
                                     await bot.send_message(LOGS_CHANNEL, f"Error 5 times, skipping the episode and moving to next.")
