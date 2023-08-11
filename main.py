@@ -1,6 +1,6 @@
 import os
 from telethon import events
-from config import bot, FILES_CHANNEL, LOGS_CHANNEL, LINKS_CHANNEL, FILES_HIDER_BOT_USERNAME
+from config import bot, FILES_CHANNEL, LOGS_CHANNEL
 import json
 from gogoapi import Gogo
 from mongodb import ConfigDB, AutoAnimeDB
@@ -11,13 +11,6 @@ import traceback
 
 cdb = ConfigDB()
 adb = AutoAnimeDB()
-
-link_format = """
-┃█████████████████████
-[FILENAME]
-┃█████████████████████
-JUST CLICK AND PRESS START
-"""
 
 loop = asyncio.get_event_loop()
 
@@ -72,7 +65,6 @@ async def checker_loop():
                                     thumb=thumb,
                                     link_preview = False,
                                 )
-                                await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
                                 os.remove(file1080)
                                 done = True
                             except:
@@ -100,12 +92,11 @@ async def checker_loop():
                                     thumb=thumb,
                                     link_preview = False,
                                 )
-                                await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
                                 os.remove(file720)
                                 done = True
                             except:
                                 err_str = traceback.format_exc()
-                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 720`\n, Refer to the following Error Message\n\n\n{err_str}")
+                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 720`\n, Refer to the following Error Message\n\n\n{err_str[-1500:]}")
                                 await asyncio.sleep(1200)
                                 links = api.get_download_link(d, j)
                                 if count == 4:
@@ -128,7 +119,6 @@ async def checker_loop():
                                     thumb=thumb,
                                     link_preview = False,
                                 )
-                                await bot.send_message(LINKS_CHANNEL, f"[{link_format.replace('[FILENAME]', link.file.name)}](t.me/{FILES_HIDER_BOT_USERNAME}?start=single_{FILES_CHANNEL}_{link.id})", link_preview = False)
                                 os.remove(file360)
                                 done = True
                             except:

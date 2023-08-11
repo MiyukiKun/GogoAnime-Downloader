@@ -1,10 +1,10 @@
 from pymongo.collection import Collection
-from config import client
+from config import client, database_name
 
 
 class ConfigDB:
     def __init__(self):
-        self.col = Collection(client['AutoAnimeBot'], 'ConfigDB')
+        self.col = Collection(client[database_name], 'ConfigDB')
         
     def find(self, data):
         return self.col.find_one(data)
@@ -21,7 +21,7 @@ class ConfigDB:
 
 class AutoAnimeDB:
     def __init__(self):
-        self.col = Collection(client['AutoAnimeBot'], 'AutoAnimeDB')
+        self.col = Collection(client[database_name], 'AutoAnimeDB')
         
     def find(self, data):
         return self.col.find_one(data)
