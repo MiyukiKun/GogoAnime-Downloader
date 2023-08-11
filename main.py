@@ -69,7 +69,7 @@ async def checker_loop():
                                 done = True
                             except:
                                 err_str = traceback.format_exc()
-                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 1080p`\n, Refer to the following Error Message\n\n\n{err_str}")
+                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 1080p`\n, Refer to the following Error Message\n\n\n{err_str[-1500:]}")
                                 await asyncio.sleep(1200)
                                 links = api.get_download_link(d, j)
                                 if count == 4:
