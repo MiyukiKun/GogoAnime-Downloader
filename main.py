@@ -123,7 +123,7 @@ async def checker_loop():
                                 done = True
                             except:
                                 err_str = traceback.format_exc()
-                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 360p`\n, Refer to the following Error Message\n\n\n{err_str}")    
+                                await bot.send_message(LOGS_CHANNEL, f"Error while downloading \n`{i['Anime']} - {j} 360p`\n, Refer to the following Error Message\n\n\n{err_str[-1500:]}")    
                                 await asyncio.sleep(1200)
                                 links = api.get_download_link(d, j)
                                 if count == 4:
@@ -145,7 +145,7 @@ async def checker_loop():
 
         except:
             err_str = traceback.format_exc()
-            await bot.send_message(LOGS_CHANNEL, f"Error!!! Most Likeley Token Expired, Please Refresh Them, if that does not work, Refer to the following Error Message\n\n\n{err_str}")    
+            await bot.send_message(LOGS_CHANNEL, f"Error!!! Most Likeley Token Expired, Please Refresh Them, if that does not work, Refer to the following Error Message\n\n\n{err_str[-1500:]}")    
             await bot.send_message(LOGS_CHANNEL, "Bot will Retry in 20 minutes, fix the error meanwhile....")
 
         await bot.send_message(LOGS_CHANNEL, f"Sleeping for 20 minutes then checking for updates again.")
