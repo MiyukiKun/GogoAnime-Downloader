@@ -56,8 +56,11 @@ async def checker_loop():
                                 await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 1080p")
                                 file1080 = downloader.DownLoadFile(links["1080"], f"{i['Anime']} - {j} 1080p.mkv")
                                 await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 1080p")
+                                size = os.stat(file1080.st_size) / 1024 ** 2
+                                if size < 10:
+                                    1/0
                                 res1080 = await fast_upload(bot, file1080)
-                                link = await bot.send_message(
+                                await bot.send_message(
                                     FILES_CHANNEL, 
                                     f"{i['Anime']} - {j} 1080p", 
                                     file=res1080,
@@ -83,8 +86,11 @@ async def checker_loop():
                                 await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 720p")
                                 file720 = downloader.DownLoadFile(links["720"], f"{i['Anime']} - {j} 720p.mkv")
                                 await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 720p")
+                                size = os.stat(file720.st_size) / 1024 ** 2
+                                if size < 10:
+                                    1/0
                                 res720 = await fast_upload(bot, file720)
-                                link = await bot.send_message(
+                                await bot.send_message(
                                     FILES_CHANNEL, 
                                     f"{i['Anime']} - {j} 720p", 
                                     file=res720, 
@@ -110,8 +116,11 @@ async def checker_loop():
                                 await bot.send_message(LOGS_CHANNEL, f"Downloading: {i['Anime']} - {j} 360p")
                                 file360 = downloader.DownLoadFile(links["360"], f"{i['Anime']} - {j} 360p.mkv")
                                 await bot.send_message(LOGS_CHANNEL, f"Uploading: {i['Anime']} - {j} 360p")
+                                size = os.stat(file360.st_size) / 1024 ** 2
+                                if size < 10:
+                                    1/0
                                 res360 = await fast_upload(bot, file360)
-                                link = await bot.send_message(
+                                await bot.send_message(
                                     FILES_CHANNEL,
                                     f"{i['Anime']} - {j} 360p",
                                     file=res360, 
